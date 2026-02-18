@@ -18,7 +18,7 @@ Credit card companies face a critical challenge: identifying customers likely to
 |---|---|
 | `EDA.ipynb` | Data cleaning, outlier handling (IQR), SMOTE balancing, feature engineering, 20+ visualizations |
 | `Credit_Card_Customers_Segmentation.ipynb` | Customer segmentation and credit score analysis |
-| `Bank_Credit_Card_Churn_Prediction.ipynb` | 11 ML models trained, evaluated, and compared |
+| `Bank_Credit_Card_Churn_Prediction.ipynb` | 13 ML models trained, evaluated, and compared |
 | `Credit_Card_SQL_Analysis.txt` | 6 SQL queries for attrition analysis across geographies |
 | `Tableau_Workbook.twbx` | Interactive Tableau dashboard *(coming soon)* |
 | `CreditCard.csv` | Raw dataset (25,000 rows, 24 features) |
@@ -42,7 +42,7 @@ Raw CSV → Data Cleaning → Feature Engineering → EDA → SQL Analysis → M
 
 **5. SQL** — 6 attrition queries including age-range bucketing, gender breakdown, payment status analysis
 
-**6. ML** — 11 classification models trained and compared on balanced dataset
+**6. ML** — 13 classification models trained and compared on balanced dataset
 
 **7. Tableau** — Interactive dashboard with churn KPIs, geographic breakdown, and financial risk profiling
 
@@ -51,34 +51,34 @@ Raw CSV → Data Cleaning → Feature Engineering → EDA → SQL Analysis → M
 ## 📊 Exploratory Data Analysis
 
 ### Age Distribution by Status
-![Age by Status](boxplot_age_vs_status.png)
+![Age by Status](images/boxplot_age_vs_status.png)
 
 ### Annual Income by Status (Box Plot)
-![Annual Income Box](boxplot_annual_income_vs_status.png)
+![Annual Income Box](images/boxplot_annual_income_vs_status.png)
 
 ### Annual Income by Status (Violin)
-![Annual Income Violin](violin_annual_income_status.png)
+![Annual Income Violin](images/violin_annual_income_status.png)
 
 ### Gender Distribution by Status
-![Gender](gender_vs_status_countplot.png)
+![Gender](images/gender_vs_status_countplot.png)
 
 ### Payment of Min Amount by Status
-![Payment](payment_of_min_amount_vs_status_countplot.png)
+![Payment](images/payment_of_min_amount_vs_status_countplot.png)
 
 ### Outstanding Debt vs Credit Utilization Ratio
-![Scatter](scatter_outstanding_debt_credit_utilization_ratio.png)
+![Scatter](images/scatter_outstanding_debt_credit_utilization_ratio.png)
 
 ### Distribution of Outstanding Debt
-![Outstanding Debt](hist_outstanding_debt.png)
+![Outstanding Debt](images/hist_outstanding_debt.png)
 
 ### Distribution of Credit Utilization Ratio
-![Credit Utilization](hist_credit_utilization_ratio.png)
+![Credit Utilization](images/hist_credit_utilization_ratio.png)
 
 ### Distribution of Number of Credit Cards
-![Num Credit Cards](hist_num_credit_card.png)
+![Num Credit Cards](images/hist_num_credit_card.png)
 
 ### Correlation Heatmap
-![Heatmap](correlation_heatmap.png)
+![Heatmap](images/correlation_heatmap.png)
 
 ---
 
@@ -88,19 +88,25 @@ Raw CSV → Data Cleaning → Feature Engineering → EDA → SQL Analysis → M
 
 **Features:** Age, Annual Income, Credit Score, Credit Utilization Ratio, Outstanding Debt, Delay from Due Date, Num of Loans, Payment of Min Amount, Geography, Occupation, Gender, 12 Loan type binary flags
 
-| Model | Accuracy |
-|---|---|
-| Random Forest Classifier | — |
-| Extra Trees Classifier | — |
-| AdaBoost Classifier | — |
-| Bagging Classifier | — |
-| Decision Tree Classifier | — |
-| Logistic Regression | — |
-| KNN | — |
-| SVM | — |
-| Gaussian / Multinomial / Bernoulli Naive Bayes | — |
+> Before SMOTE all models were stuck at ~50% accuracy due to class imbalance. After SMOTEENN, performance improved significantly.
 
-> **Imbalance Handling:** SMOTEENN applied before model training to improve Recall on minority (Attrited) class
+| Model | Before SMOTE | After SMOTE |
+|---|---|---|
+| **Bagging Classifier** | 48.78% | **85.19% ✅** |
+| Random Forest | 48.62% | **83.53%** |
+| XGBoost | 48.92% | 79.03% |
+| Extra Trees | 49.64% | 78.54% |
+| KNN | 49.04% | 77.20% |
+| Gradient Boosting | 50.02% | 65.39% |
+| AdaBoost | 48.58% | 58.90% |
+| Multinomial Naive Bayes | 50.28% | 54.08% |
+| Decision Tree | 48.42% | 53.41% |
+| Logistic Regression | 50.10% | 51.08% |
+| SVM | 50.16% | 49.92% |
+| Gaussian Naive Bayes | 50.50% | 49.25% |
+| Bernoulli Naive Bayes | 49.86% | 49.25% |
+
+✅ **Best Model: Bagging Classifier — 85.19% accuracy after SMOTEENN**
 
 ---
 
@@ -138,7 +144,7 @@ Three interactive dashboard views:
 - 📅 Longer credit history consistently leads to better credit scores
 - 🔁 Taking **more than 3 loans simultaneously** negatively impacts credit scores
 - 👫 Gender shows **no significant difference** in churn rate
-- 💵 Annual income distribution is **nearly identical** between Attrited and Existed customers
+- 📈 SMOTEENN improved best model accuracy from **~50% to 85.19%**
 
 ---
 
@@ -148,7 +154,7 @@ Three interactive dashboard views:
 |---|---|
 | Python (Pandas, NumPy) | Data cleaning & feature engineering |
 | Matplotlib, Seaborn | EDA visualizations |
-| Scikit-learn | 11 ML models, evaluation |
+| Scikit-learn | 13 ML models, evaluation |
 | imbalanced-learn (SMOTEENN) | Class imbalance handling |
 | MySQL | SQL attrition analysis |
 | Tableau Public | Interactive dashboards |
